@@ -121,14 +121,14 @@ namespace Praktika.DAL
 
             if (dbContext.Players.Count() == 0)
             {
-                Console.WriteLine("Нет игроков в базе! Добавьте игроков перед генерацией матчей.");
+                Console.WriteLine("No players in the database! Add players before generating matches.");
                 return addedMatches;
             }
 
             var teams = dbContext.Teams.ToList();
             if (teams.Count < 2)
             {
-                Console.WriteLine("Недостаточно команд для генерации матчей.");
+                Console.WriteLine("Not enough teams to generate matches.");
                 return addedMatches;
             }
 
@@ -191,7 +191,7 @@ namespace Praktika.DAL
             }
 
             dbContext.SaveChanges();
-            Console.WriteLine($"{numberOfMatches} матчей успешно добавлено случайным образом!");
+            Console.WriteLine($"{numberOfMatches} matches successfully added randomly!");
             return addedMatches;
         }
 

@@ -21,12 +21,12 @@ namespace Praktika_menu
         {
             while (true)
             {
-                Console.WriteLine("1 - Топ-3 команды по забитым голам");
-                Console.WriteLine("2 - Команда с наибольшим количеством забитых голов");
-                Console.WriteLine("3 - Топ-3 команды по наименьшему количеству пропущенных голов");
-                Console.WriteLine("4 - Команда с наименьшим количеством пропущенных голов");
-                Console.WriteLine("0 - Выход");
-                int choice = EnterInt("Введите пункт: ");
+                Console.WriteLine("1 - Top 3 teams by goals scored");
+                Console.WriteLine("2 - Team with the most goals scored");
+                Console.WriteLine("3 - Top 3 teams with the fewest goals conceded");
+                Console.WriteLine("4 - Team with the fewest goals conceded");
+                Console.WriteLine("0 - Exit");
+                int choice = EnterInt("Select an option: ");
                 if (choice == 0) return;
                 TopTeams_Swich(repo, choice);
             }
@@ -39,7 +39,7 @@ namespace Praktika_menu
                 case 1:
                     Console.Clear();
                     var top3Scored = repo.Top3_TeamsByGoalsScored();
-                    PrintTeams(top3Scored, "Топ-3 команды по забитым голам:");
+                    PrintTeams(top3Scored, "Top 3 teams by goals scored:");
                     ReadKey();
                     break;
 
@@ -47,14 +47,14 @@ namespace Praktika_menu
                     Console.Clear();
                     var top1Scored = repo.Top1_TeamByGoalsScored();
                     PrintTeams(top1Scored != null ? new List<Team> { top1Scored } : new List<Team>(),
-                               "Команда с наибольшим количеством забитых голов:");
+                        "Team with the most goals scored:");
                     ReadKey();
                     break;
 
                 case 3:
                     Console.Clear();
                     var top3Conceded = repo.Top3_TeamsByGoalsConceded();
-                    PrintTeams(top3Conceded, "Топ-3 команды по наименьшему количеству пропущенных голов:");
+                    PrintTeams(top3Conceded, "Top 3 teams with the fewest goals conceded:");
                     ReadKey();
                     break;
 
@@ -62,12 +62,12 @@ namespace Praktika_menu
                     Console.Clear();
                     var top1Conceded = repo.Top1_TeamByGoalsConceded();
                     PrintTeams(top1Conceded != null ? new List<Team> { top1Conceded } : new List<Team>(),
-                               "Команда с наименьшим количеством пропущенных голов:");
+                        "Team with the fewest goals conceded:");
                     ReadKey();
                     break;
 
                 default:
-                    Console.WriteLine("Ошибка выбора!");
+                    Console.WriteLine("Invalid selection!");
                     ReadKey();
                     break;
             }
@@ -75,13 +75,13 @@ namespace Praktika_menu
         public void PrintTeams(List<Team> teams, string message)
         {
             if (teams.Count == 0)
-                Console.WriteLine("Команд не найдено.");
+                Console.WriteLine("No teams found.");
             else
             {
                 Console.WriteLine(message);
                 foreach (var t in teams)
                 {
-                    Console.WriteLine($"{t.Name} ({t.City}) - Забито: {t.Goals_scored}, Пропущено: {t.Goals_missed}");
+                    Console.WriteLine($"{t.Name} ({t.City}) - Scored: {t.Goals_scored}, Conceded: {t.Goals_missed}");
                 }
             }
         }
@@ -90,12 +90,13 @@ namespace Praktika_menu
             while (true)
             {
                 Console.Clear();
-                Console.WriteLine("1 - Топ-3 бомбардиры команды");
-                Console.WriteLine("2 - Лучший бомбардир команды");
-                Console.WriteLine("3 - Топ-3 бомбардиры чемпионата");
-                Console.WriteLine("4 - Лучший бомбардир чемпионата");
-                Console.WriteLine("0 - Выход");
-                int choice = EnterInt("Введите пункт: ");
+                Console.WriteLine("1 - Top 3 scorers of a team");
+                Console.WriteLine("2 - Best scorer of a team");
+                Console.WriteLine("3 - Top 3 scorers of the league");
+                Console.WriteLine("4 - Best scorer of the league");
+                Console.WriteLine("0 - Exit");
+
+                int choice = EnterInt("Select an option: ");
                 if (choice == 0) return;
                 TopScorers_Swich(repo,choice);
             }
@@ -108,29 +109,29 @@ namespace Praktika_menu
             string teamName = null;
             if (choice == 1 || choice == 2)
             {
-                teamName = EnterString("Введите название команды: ");
+                teamName = EnterString("Enter team name: ");
                 if (!CheckTeamExists(repo, teamName)) return;
             }
             switch (choice)
-            {                
-                case 1:               
-                    PrintTopScorers(repo.Top3_ScorersByTeam(teamName), $"Топ-3 бомбардиров команды {teamName}:");
+            {
+                case 1:
+                    PrintTopScorers(repo.Top3_ScorersByTeam(teamName), $"Top 3 scorers of team {teamName}:");
                     break;
 
                 case 2:
-                    PrintTopScorers(repo.Top1_ScorersByTeam(teamName), $"Лучший бомбардир команды {teamName}:");
+                    PrintTopScorers(repo.Top1_ScorersByTeam(teamName), $"Best scorer of team {teamName}:");
                     break;
 
                 case 3:
-                    PrintTopScorers(repo.Top3_ScorersByAllTeams(), "Топ-3 бомбардиров всего чемпионата:");
+                    PrintTopScorers(repo.Top3_ScorersByAllTeams(), "Top 3 scorers of the whole championship:");
                     break;
 
                 case 4:
-                    PrintTopScorers(repo.Top1_ScorersByAllTeams(), "Лучший бомбардир чемпионата:");
+                    PrintTopScorers(repo.Top1_ScorersByAllTeams(), "Best scorer of the championship:");
                     break;
 
                 default:
-                    Console.WriteLine("Ошибка выбора!");
+                    Console.WriteLine("Invalid selection!");
                     break;
             }
             ReadKey();
@@ -139,7 +140,7 @@ namespace Praktika_menu
         {
             if (scorers.Count == 0)
             {
-                Console.WriteLine("Голов не найдено.");
+                Console.WriteLine("No goals found.");
             }
             else
             {
@@ -147,9 +148,9 @@ namespace Praktika_menu
                 foreach (var s in scorers)
                 {
                     if (s.player.Team != null)
-                        Console.WriteLine($"{s.player.FullName} ({s.player.Team.Name}) - {s.goals} голов");
+                        Console.WriteLine($"{s.player.FullName} ({s.player.Team.Name}) - {s.goals} goals");
                     else
-                        Console.WriteLine($"{s.player.FullName} - {s.goals} голов");
+                        Console.WriteLine($"{s.player.FullName} - {s.goals} goals");
                 }
             }
         }
@@ -158,7 +159,7 @@ namespace Praktika_menu
             var teamExists = repo.GetAll().Any(t => t.Name == teamName);
             if (!teamExists)
             {
-                Console.WriteLine($"Команда '{teamName}' не найдена в базе.");
+                Console.WriteLine($"Team '{teamName}' was not found in the database.");
                 ReadKey();
                 return false;
             }
@@ -167,35 +168,35 @@ namespace Praktika_menu
         public void Menu_TopPoints(PrRepository repo)
         {
             Console.Clear();
-            Console.WriteLine("1 - Топ-3 команды по набранным очкам");
-            Console.WriteLine("2 - Команда с наибольшим количеством очков");
-            Console.WriteLine("3 - Топ-3 команды с наименьшим количеством очков");
-            Console.WriteLine("4 - Команда с наименьшим количеством очков");
+            Console.WriteLine("1 - Top 3 teams by points");
+            Console.WriteLine("2 - Team with the highest number of points");
+            Console.WriteLine("3 - Top 3 teams with the lowest number of points");
+            Console.WriteLine("4 - Team with the lowest number of points");
 
-            int choice = EnterInt("Введите пункт: ");
+            int choice = EnterInt("Enter your choice: ");
 
             var teamsWithPoints = repo.TeamsWithPoints();
             Console.Clear();
             switch (choice)
             {
-                case 1:                  
-                    PrintTeams(teamsWithPoints.OrderByDescending(t => t.Points).Take(3).Select(t => t.Team).ToList(), "Топ-3 команды по набранным очкам:");
+                case 1:
+                    PrintTeams(teamsWithPoints.OrderByDescending(t => t.Points).Take(3).Select(t => t.Team).ToList(), "Top 3 teams by points:");
                     break;
 
                 case 2:
-                    PrintTeams(teamsWithPoints.OrderByDescending(t => t.Points).Take(1).Select(t => t.Team).ToList(), "Команда с наибольшим количеством очков:");
+                    PrintTeams(teamsWithPoints.OrderByDescending(t => t.Points).Take(1).Select(t => t.Team).ToList(), "Team with the highest number of points:");
                     break;
 
                 case 3:
-                    PrintTeams(teamsWithPoints.OrderBy(t => t.Points).Take(3).Select(t => t.Team).ToList(), "Топ-3 команды с наименьшим количеством очков:");
+                    PrintTeams(teamsWithPoints.OrderBy(t => t.Points).Take(3).Select(t => t.Team).ToList(), "Top 3 teams with the lowest number of points:");
                     break;
 
                 case 4:
-                    PrintTeams(teamsWithPoints.OrderBy(t => t.Points).Take(1).Select(t => t.Team).ToList(), "Команда с наименьшим количеством очков:");
+                    PrintTeams(teamsWithPoints.OrderBy(t => t.Points).Take(1).Select(t => t.Team).ToList(), "Team with the lowest number of points:");
                     break;
 
                 default:
-                    Console.WriteLine("Ошибка выбора!");
+                    Console.WriteLine("Invalid selection!");
                     break;
             }
             ReadKey();
@@ -209,18 +210,18 @@ namespace Praktika_menu
             while (true)
             {
                 Console.Clear();
-                Console.WriteLine("ДОПОЛНИТЕЛЬНЫЕ ФУНКЦИИ:");
-                Console.WriteLine("1 - Разница забитых и пропущенных голов для каждой команды");
-                Console.WriteLine("2 - Полная информация о всех матчах");
-                Console.WriteLine("3 - Матчи в конкретную дату");
-                Console.WriteLine("4 - Матчи конкретной команды");
-                Console.WriteLine("5 - Игроки, забившие голы в конкретную дату");
-                Console.WriteLine("6 - Добавить матчи случайным образом");
-                Console.WriteLine("0 - Назад");
+                Console.WriteLine("ADDITIONAL FUNCTIONS:");
+                Console.WriteLine("1 - Goal difference (scored vs conceded) for each team");
+                Console.WriteLine("2 - Full information about all matches");
+                Console.WriteLine("3 - Matches on a specific date");
+                Console.WriteLine("4 - Matches of a specific team");
+                Console.WriteLine("5 - Players who scored goals on a specific date");
+                Console.WriteLine("6 - Add matches randomly");
+                Console.WriteLine("0 - Back");
 
-                int choice = EnterInt("Введите номер: ");
+                int choice = EnterInt("Enter a number: ");
                 if (choice == 0) { return; }
-                Menu_MatchFunctionsSwitch(repo, choice);              
+                Menu_MatchFunctionsSwitch(repo, choice);
             }
         }
         private void Menu_MatchFunctionsSwitch(PrRepository repo, int choice)
@@ -235,16 +236,16 @@ namespace Praktika_menu
 
                     if (teams.Count == 0)
                     {
-                        Console.WriteLine("Команд нет в базе.");
+                        Console.WriteLine("No teams in the database.");
                         ReadKey();
                         return;
                     }
 
-                    Console.WriteLine("Разница забитых и пропущенных голов:");
+                    Console.WriteLine("Goal difference (scored vs conceded):");
                     foreach (var t in teams)
                     {
                         int diff = t.Goals_scored - t.Goals_missed;
-                        Console.WriteLine($"{t.Name} ({t.City}) -> Разница: {diff}");
+                        Console.WriteLine($"{t.Name} ({t.City}) -> Difference: {diff}");
                     }
                     break;
                 case 2:
@@ -252,7 +253,7 @@ namespace Praktika_menu
 
                     if (matches.Count == 0)
                     {
-                        Console.WriteLine("Матчей нет в базе.");
+                        Console.WriteLine("No matches in the database.");
                     }
                     else
                     {
@@ -263,35 +264,35 @@ namespace Praktika_menu
                     }
                     break;
                 case 3:
-                    Console.WriteLine("Введите дату для поиска матчей (yyyy-MM-dd): ");
+                    Console.WriteLine("Enter the date to search for matches (yyyy-MM-dd): ");
                     if (DateTime.TryParse(Console.ReadLine(), out DateTime date))
                     {
                         matches = repo.GetAllMatches().Where(m => m.MatchDate.Date == date.Date).ToList();
 
                         if (matches.Count == 0)
                         {
-                            Console.WriteLine("Матчей на эту дату нет.");
+                            Console.WriteLine("No matches on this date.");
                         }
                         else
                         {
                             foreach (var m in matches)
                             {
-                                Console.WriteLine($"Команда: {m.Team.Name}, Соперник: {m.Opponent.Name}, Забито: {m.GoalsScored}, Пропущено: {m.GoalsConceded}");
+                                Console.WriteLine($"Team: {m.Team.Name}, Opponent: {m.Opponent.Name}, Scored: {m.GoalsScored}, Conceded: {m.GoalsConceded}");
                             }
                         }
                     }
                     else
                     {
-                        Console.WriteLine("Неверный формат даты.");
+                        Console.WriteLine("Invalid date format.");
                     }
                     break;
                 case 4:
-                    string teamName = EnterString("Введите название команды: ");
+                    string teamName = EnterString("Enter team name: ");
                     matches = repo.GetAllMatches().Where(m => m.Team.Name == teamName || m.Opponent.Name == teamName).ToList();
 
                     if (matches.Count == 0)
                     {
-                        Console.WriteLine("Матчей для этой команды нет.");
+                        Console.WriteLine("No matches for this team.");
                     }
                     else
                     {
@@ -302,7 +303,7 @@ namespace Praktika_menu
                     }
                     break;
                 case 5:
-                    Console.WriteLine("Введите дату для поиска матчей (yyyy-MM-dd): ");
+                    Console.WriteLine("Enter the date to search for matches (yyyy-MM-dd): ");
 
                     string inputDate = Console.ReadLine();
                     if (DateTime.TryParse(inputDate, out DateTime date_1))
@@ -311,7 +312,7 @@ namespace Praktika_menu
 
                         if (matches.Count == 0)
                         {
-                            Console.WriteLine("Матчей на эту дату нет.");
+                            Console.WriteLine("No matches on this date.");
                         }
                         else
                         {
@@ -330,10 +331,10 @@ namespace Praktika_menu
                             }
 
                             if (players.Count == 0)
-                                Console.WriteLine("Голы в этот день не забиты.");
+                                Console.WriteLine("No goals were scored on this day.");
                             else
                             {
-                                Console.WriteLine("Игроки, забившие голы в этот день:");
+                                Console.WriteLine("Players who scored goals on this day:");
                                 foreach (var player in players)
                                     Console.WriteLine(player);
                             }
@@ -341,14 +342,14 @@ namespace Praktika_menu
                     }
                     else
                     {
-                        Console.WriteLine("Неверный формат даты.");
+                        Console.WriteLine("Invalid date format.");
                     }
 
                     
                     break;
                 case 6:
                     Console.Clear();
-                    int count = EnterInt("Сколько матчей добавить случайным образом? ");
+                    int count = EnterInt("How many matches to add randomly? ");
                     matches = repo.MatchRandom(count);
                     foreach (var match in matches)
                     {
@@ -357,16 +358,16 @@ namespace Praktika_menu
                         repo.Update(match.Opponent);
                     }
                     break;
-                default: Console.WriteLine("Ошибка выбора!"); ReadKey(); break;
+                default: Console.WriteLine("Invalid selection!"); ReadKey(); break;
             }
             ReadKey();
         }
         private void PrintMatches(Match m)
         {
-            Console.WriteLine($"Матч ID: {m.Id}");
+            Console.WriteLine($"Match ID: {m.Id}");
             Console.WriteLine($"{m.Team.Name} vs {m.Opponent.Name}");
-            Console.WriteLine($"Счёт: {m.GoalsScored} : {m.GoalsConceded}");
-            Console.WriteLine($"Дата: {m.MatchDate:dd.MM.yyyy}");
+            Console.WriteLine($"Score: {m.GoalsScored} : {m.GoalsConceded}");
+            Console.WriteLine($"Date: {m.MatchDate:dd.MM.yyyy}");
 
             PrintTeamScorers(m.Team, m.GoalsScored, m.Players);
             PrintTeamScorers(m.Opponent, m.GoalsConceded, m.Players);
@@ -379,7 +380,7 @@ namespace Praktika_menu
             Console.WriteLine($"{team.Name} ({goals}):");
 
             if (scorers.Count == 0)
-                Console.WriteLine("  — никто не забил");
+                Console.WriteLine("  — nobody scored");
             else
                 scorers.ForEach(p => Console.WriteLine($"  - {p.FullName}"));
         }
@@ -389,12 +390,12 @@ namespace Praktika_menu
             while (true)
             {
                 Console.Clear();
-                Console.WriteLine("Выберите что хотите сделать:");
-                Console.WriteLine("1 - Добавить матч");
-                Console.WriteLine("2 - Изменить матч");
-                Console.WriteLine("3 - Удалить матч");
-                Console.WriteLine("0 - Выход");                
-                int choice = EnterInt("Введите номер: ");
+                Console.WriteLine("Choose what you want to do:");
+                Console.WriteLine("1 - Add match");
+                Console.WriteLine("2 - Edit match");
+                Console.WriteLine("3 - Delete match");
+                Console.WriteLine("0 - Exit");
+                int choice = EnterInt("Enter a number: ");
                 if (choice == 0) return;
                 Add_Upd_Del_Match_Switch(repo, choice);
             }
@@ -406,37 +407,37 @@ namespace Praktika_menu
                 case 1: AddMatch(repo); break;
                 case 2: EditMatch(repo); break;
                 case 3: DeleteMatch(repo); break;
-                default: Console.WriteLine("Ошибка выбора!"); ReadKey(); break;
+                default: Console.WriteLine("Invalid selection!"); ReadKey(); break;
             }
         }
 
         public void AddMatch(PrRepository repo)
         {
             Console.Clear();
-            Console.WriteLine("Добавление нового матча:");
+            Console.WriteLine("Adding a new match:");
 
-            string teamName = EnterString("Введите название команды: ");
+            string teamName = EnterString("Enter team name: ");
             var team = repo.GetAll().FirstOrDefault(t => t.Name == teamName);
             if (team == null)
             {
-                Console.WriteLine("Такой команды нет в базе.");
+                Console.WriteLine("No such team exists in the database.");
                 ReadKey();
                 return;
             }
 
-            string opponentName = EnterString("Введите название команды соперника: ");
+            string opponentName = EnterString("Enter opponent team name: ");
             var opponent = repo.GetAll().FirstOrDefault(t => t.Name == opponentName);
             if (opponent == null)
             {
-                Console.WriteLine("Команда-соперник не найдена.");
+                Console.WriteLine("Opponent team not found.");
                 ReadKey();
                 return;
             }
 
-            Console.Write("Введите дату матча (yyyy-MM-dd): ");
+            Console.Write("Enter match date (yyyy-MM-dd): ");
             if (!DateTime.TryParse(Console.ReadLine(), out DateTime matchDate))
             {
-                Console.WriteLine("Неверный формат даты.");
+                Console.WriteLine("Invalid date format.");
                 ReadKey();
                 return;
             }
@@ -444,13 +445,13 @@ namespace Praktika_menu
             var existingMatch = repo.GetAllMatches().FirstOrDefault(m => m.TeamId == team.Id && m.Opponent.Id == opponent.Id && m.MatchDate.Date == matchDate.Date);
             if (existingMatch != null)
             {
-                Console.WriteLine("Такой матч уже существует.");
+                Console.WriteLine("Such a match already exists.");
                 ReadKey();
                 return;
             }
 
-            int goalsScored = EnterInt($"Сколько голов забила команда {team.Name}? ");
-            int goalsConceded = EnterInt($"Сколько голов забила команда {opponent.Name}? ");
+            int goalsScored = EnterInt($"How many goals did team {team.Name} score? ");
+            int goalsConceded = EnterInt($"How many goals did team {opponent.Name} score? ");
 
             var playersTeam = EnterPlayersForGoals(repo, team, goalsScored);
             var playersOpponent = EnterPlayersForGoals(repo, opponent, goalsConceded);
@@ -473,7 +474,7 @@ namespace Praktika_menu
             UpdateTeamStatsForMatch(match, true); 
             repo.AddMatch(match);
 
-            Console.WriteLine("Матч успешно добавлен!");
+            Console.WriteLine("Match successfully added!");
             ReadKey();
         }
         public List<Player> EnterPlayersForGoals(PrRepository repo, Team team, int goals)
@@ -482,7 +483,7 @@ namespace Praktika_menu
 
             if (goals == 0)
             {
-                Console.WriteLine($"Команда {team.Name} не забила голов.");
+                Console.WriteLine($"Team {team.Name} did not score any goals.");
                 return result;
             }
 
@@ -492,7 +493,7 @@ namespace Praktika_menu
             {
                 while (true)
                 {
-                    Console.Write($"Кто забил {i}-й гол за {team.Name}? ");
+                    Console.Write($"Who scored the {i}-th goal for {team.Name}? ");
                     string playerName = Console.ReadLine().Trim();
 
                     var player = teamPlayers.FirstOrDefault(p => p.FullName == playerName);
@@ -504,7 +505,7 @@ namespace Praktika_menu
                     }
                     else
                     {
-                        Console.WriteLine($"Игрок '{playerName}' не найден в команде {team.Name}. Повторите ввод.");
+                        Console.WriteLine($"Player '{playerName}' not found in team {team.Name}. Please try again.");
                     }
                 }
             }
@@ -514,28 +515,28 @@ namespace Praktika_menu
 
         public Match FindMatch(PrRepository repo)
         {
-            string teamName = EnterString("Введите название команды: ");
+            string teamName = EnterString("Enter the name of the team: ");
             var team = repo.GetAll().FirstOrDefault(t => t.Name.Equals(teamName, StringComparison.OrdinalIgnoreCase));
             if (team == null)
             {
-                Console.WriteLine("Такой команды нет в базе.");
+                Console.WriteLine("Team not found.");
                 ReadKey();
                 return null;
             }
 
-            string opponentName = EnterString("Введите название команды соперника: ");
+            string opponentName = EnterString("Enter the name of the opponent team: ");
             var opponent = repo.GetAll().FirstOrDefault(t => t.Name.Equals(opponentName, StringComparison.OrdinalIgnoreCase));
             if (opponent == null)
             {
-                Console.WriteLine("Команда-соперник не найдена.");
+                Console.WriteLine("Opponent team not found.");
                 ReadKey();
                 return null;
             }
 
-            Console.Write("Введите дату матча (yyyy-MM-dd): ");
+            Console.Write("Enter the match date (yyyy-MM-dd): ");
             if (!DateTime.TryParse(Console.ReadLine(), out DateTime matchDate))
             {
-                Console.WriteLine("Неверный формат даты.");
+                Console.WriteLine("Invalid date format.");
                 ReadKey();
                 return null;
             }
@@ -545,7 +546,7 @@ namespace Praktika_menu
 
             if (match == null)
             {
-                Console.WriteLine("Матч не найден.");
+                Console.WriteLine("Match not found.");
                 ReadKey();
                 return null;
             }
@@ -555,7 +556,7 @@ namespace Praktika_menu
         public void EditMatch(PrRepository repo)
         {
             Console.Clear();
-            Console.WriteLine("Редактирование матча:");
+            Console.WriteLine("Editing match:");
 
             Team team, opponent;
             var match_f = FindMatch(repo);
@@ -563,15 +564,15 @@ namespace Praktika_menu
 
             UpdateTeamStatsForMatch(match_f, false);
 
-            Console.WriteLine("Что хотите изменить?");
-            Console.WriteLine("1 - Соперник\n2 - Дата\n3 - Забито первой командой \n4 - Забито второй командой\n5 - Игроки забившие годы\n0 - Выход");
-            int choice = EnterInt("Введите: ");
+            Console.WriteLine("What do you want to change?");
+            Console.WriteLine("1 - Opponent\n2 - Date\n3 - Goals scored by the first team\n4 - Goals scored by the second team\n5 - Players who scored goals\n0 - Exit");
+            int choice = EnterInt("Enter: ");
 
             switch (choice)
             {
                 case 0: return;
                 case 1:
-                    string newOpponentName = EnterString("Новый соперник: ");
+                    string newOpponentName = EnterString("New opponent: ");
                     var newOpponent = repo.GetAll().FirstOrDefault(t => t.Name == newOpponentName);
                     if (newOpponent != null)
                     {
@@ -585,30 +586,30 @@ namespace Praktika_menu
 
                         if (match_f.GoalsConceded > 0)
                         {
-                            Console.WriteLine($"\nНужно заново указать, кто забил {match_f.GoalsConceded} голов за {newOpponent.Name}:");
+                            Console.WriteLine($"\nNeed to re-specify who scored {match_f.GoalsConceded} goals for {newOpponent.Name}:");
                             var OpponentScorers = EnterPlayersForGoals(repo, newOpponent, match_f.GoalsConceded);
 
                             match_f.Players.AddRange(OpponentScorers);
                         }
 
-                        Console.WriteLine($"Соперник изменён на {newOpponent.Name}, голы обновлены.");
+                        Console.WriteLine($"Opponent changed to {newOpponent.Name}, goals updated.");
                     }
                     else
                     {
-                        Console.WriteLine("Такой команды нет, соперник не изменён.");
+                        Console.WriteLine("Team not found, opponent not changed.");
                     }
                     break;
                 case 2:
-                    Console.Write("Новая дата (yyyy-MM-dd): ");
+                    Console.Write("New date (yyyy-MM-dd): ");
                     if (DateTime.TryParse(Console.ReadLine(), out DateTime newDate))
                         match_f.MatchDate = newDate;
                     break;
                 case 3:
-                    int newScored = EnterInt("Новые забитые голы первой командой: ");
+                    int newScored = EnterInt("New goals scored by the first team: ");
 
                     if (newScored != match_f.GoalsScored)
                     {
-                        Console.WriteLine("Количество голов изменилось! Нужно заново указать, кто забил.");
+                        Console.WriteLine("Number of goals changed! Need to re-specify who scored.");
 
                         match_f.Players.Clear();
 
@@ -622,10 +623,10 @@ namespace Praktika_menu
                     }
                     break;
                 case 4:
-                    int newConceded = EnterInt("Новые пропущенные голы второй командой: ");
+                    int newConceded = EnterInt("New goals conceded by the second team: ");
                     if (newConceded != match_f.GoalsConceded)
                     {
-                        Console.WriteLine("Количество пропущенных голов изменилось! Нужно заново указать, кто забил у соперника.");
+                        Console.WriteLine("Number of goals conceded changed! Need to re-specify who scored for the opponent.");
 
                         match_f.Players.Clear();
 
@@ -639,7 +640,7 @@ namespace Praktika_menu
                     }
                     break;
                 case 5:
-                    Console.WriteLine($"Изменение списка игроков, забивших голы в матче {match_f.Team.Name} vs {match_f.Opponent.Name}");
+                    Console.WriteLine($"Editing the list of players who scored in the match {match_f.Team.Name} vs {match_f.Opponent.Name}");
 
                     var newTeamScorers = EnterPlayersForGoals(repo, match_f.Team, match_f.GoalsScored);
                     var newOpponentScorers = EnterPlayersForGoals(repo, match_f.Opponent, match_f.GoalsConceded);
@@ -648,31 +649,31 @@ namespace Praktika_menu
                     match_f.Players.AddRange(newTeamScorers);
                     match_f.Players.AddRange(newOpponentScorers);
 
-                    Console.WriteLine("Игроки, забившие голы, успешно обновлены!");
+                    Console.WriteLine("Players who scored have been successfully updated!");
                     break;
                 default:
-                    Console.WriteLine("Ошибка!");
+                    Console.WriteLine("Error!");
                     break;
             }
 
             UpdateTeamStatsForMatch(match_f, true);
             repo.UpdateMatch(match_f);
 
-            Console.WriteLine("Матч обновлён!");
+            Console.WriteLine("Match updated!");
             ReadKey();
         }
         public void DeleteMatch(PrRepository repo)
         {
             Console.Clear();
-            Console.WriteLine("Удаление матча:");
-                
+            Console.WriteLine("Deleting match:");
+
             var match = FindMatch(repo);
             if (match == null) return;
 
             UpdateTeamStatsForMatch(match, false);
             repo.RemoveMatch(match.Id);
 
-            Console.WriteLine("Матч удалён!");
+            Console.WriteLine("Match deleted!");
             ReadKey();
         }      
         public void UpdateTeamStatsForMatch(Match match, bool isAdding)
@@ -716,15 +717,15 @@ namespace Praktika_menu
         {
             if (t == null)
             {
-                Console.WriteLine("Команда не найдена.");
+                Console.WriteLine("Team not found.");
                 return;
             }
 
-            Console.WriteLine($"Id: {t.Id}, Название: {t.Name}, Город: {t.City}, Побед: {t.Win}, Поражений: {t.Lose}, Ничьих: {t.Draw},Забито: {t.Goals_scored}, Пропущено:{t.Goals_missed}");
+            Console.WriteLine($"Id: {t.Id}, Name: {t.Name}, City: {t.City}, Wins: {t.Win}, Losses: {t.Lose}, Draws: {t.Draw}, Scored: {t.Goals_scored}, Conceded: {t.Goals_missed}");
         }
         public void ReadKey()
         {
-            Console.WriteLine("\nНажмите любую клавишу, чтобы продолжить...");
+            Console.WriteLine("\nPress any key to continue...");
             Console.ReadKey();
         }
         public string EnterString(string text)
@@ -736,7 +737,7 @@ namespace Praktika_menu
                 if (!string.IsNullOrWhiteSpace(input))
                     return input;
 
-                Console.WriteLine("Ошибка! Поле не может быть пустым.");
+                Console.WriteLine("Error! Field cannot be empty.");
             }
         }
         public int EnterInt(string text)
@@ -747,7 +748,7 @@ namespace Praktika_menu
                 if (int.TryParse(Console.ReadLine(), out int num))
                     return num;
 
-                Console.WriteLine("Ошибка! Введите число.");
+                Console.WriteLine("Error! Please enter a number.");
             }
         }
 
@@ -758,10 +759,10 @@ namespace Praktika_menu
             var teams = repo.GetAll();
 
             if (teams.Count == 0)
-                Console.WriteLine("Команд нет в базе.");
+                Console.WriteLine("No teams found.");
             else
             {
-                Console.WriteLine("Список всех команд:");
+                Console.WriteLine("List of all teams:");
                 foreach (var t in teams)
                     PrintTeam(t);
             }
@@ -771,21 +772,21 @@ namespace Praktika_menu
         public void Menu_AddTeam(PrRepository repo)
         {
             Console.Clear();
-            string name = EnterString("Введите название команды: ");
-            string city = EnterString("Введите город: ");
+            string name = EnterString("Enter team name: ");
+            string city = EnterString("Enter city: ");
 
             if (repo.GetAll().Any(t => t.Name == name && t.City == city))
             {
-                Console.WriteLine("Такая команда уже существует.");
+                Console.WriteLine("Such a team already exists.");
                 ReadKey();
                 return;
             }
 
-            int win = EnterInt("Введите количество побед: ");
-            int lose = EnterInt("Введите количество поражений: ");
-            int draw = EnterInt("Введите количество ничьих: ");
-            int goalsScored = EnterInt("Введите количество забитых голов: ");
-            int goalsMissed = EnterInt("Введите количество пропущенных голов: ");
+            int win = EnterInt("Enter number of wins: ");
+            int lose = EnterInt("Enter number of losses: ");
+            int draw = EnterInt("Enter number of draws: ");
+            int goalsScored = EnterInt("Enter number of goals scored: ");
+            int goalsMissed = EnterInt("Enter number of goals conceded: ");
 
             repo.Add(new Team
             {
@@ -798,7 +799,7 @@ namespace Praktika_menu
                 Goals_missed = goalsMissed
             });
 
-            Console.WriteLine("Команда успешно добавлена!");
+            Console.WriteLine("Team successfully added!");
             ReadKey();
         }
 
@@ -806,30 +807,30 @@ namespace Praktika_menu
         {
                 Console.Clear();
 
-                Console.WriteLine("Изменение даных команды");
-                string name = EnterString("Введите название команды: ");
-                string city = EnterString("Введите город: ");
+                Console.WriteLine("Editing team data");
+                string name = EnterString("Enter team name: ");
+                string city = EnterString("Enter city: ");
 
                 var team = repo.GetAll().FirstOrDefault(t => t.Name == name && t.City == city);
 
                 if (team == null)
                 {
-                    Console.WriteLine("Команда не найдена.");
+                    Console.WriteLine("Team not found.");
                     ReadKey();
                     return;
                 }
 
-                Console.WriteLine("Текущие данные:");
+                Console.WriteLine("Current data:");
                 PrintTeam(team);
 
-                Console.WriteLine("\nЧто хотите изменить?");
-                Console.WriteLine("1 - Название\n2 - Город\n3 - Победы\n4 - Поражения\n5 - Ничьи\n6 - Забитые голы\n7 - Пропущенные голы\n0 - Выход");
-                int choice = EnterInt("Введите: ");
+                Console.WriteLine("\nWhat do you want to change?");
+                Console.WriteLine("1 - Name\n2 - City\n3 - Wins\n4 - Losses\n5 - Draws\n6 - Goals Scored\n7 - Goals Missed\n0 - Exit");
+                int choice = EnterInt("Enter: ");
 
                 UpdateTeamSwitch(team, choice);
                 repo.Update(team);
 
-                Console.WriteLine("Команда обновлена!");
+                Console.WriteLine("Team updated!");
                 PrintTeam(team);
                 ReadKey();
         }
@@ -837,42 +838,42 @@ namespace Praktika_menu
         {
             switch (choice)
             {
-                case 1: team.Name = EnterString("Новое название: "); break;
-                case 2: team.City = EnterString("Новый город: "); break;
-                case 3: team.Win = EnterInt("Новые победы: "); break;
-                case 4: team.Lose = EnterInt("Новые поражения: "); break;
-                case 5: team.Draw = EnterInt("Новые ничьи: "); break;
-                case 6: team.Goals_scored = EnterInt("Новые забитые голы: "); break;
-                case 7: team.Goals_missed = EnterInt("Новые пропущенные голы: "); break;
+                case 1: team.Name = EnterString("New name: "); break;
+                case 2: team.City = EnterString("New city: "); break;
+                case 3: team.Win = EnterInt("New wins: "); break;
+                case 4: team.Lose = EnterInt("New losses: "); break;
+                case 5: team.Draw = EnterInt("New draws: "); break;
+                case 6: team.Goals_scored = EnterInt("New goals scored: "); break;
+                case 7: team.Goals_missed = EnterInt("New goals missed: "); break;
                 case 0: return;
-                default: Console.WriteLine("Ошибка!"); break;
+                default: Console.WriteLine("Error!"); break;
             }
         }
 
         public void Menu_DeleteTeam(PrRepository repo)
         {
             Console.Clear();
-            string name = EnterString("Введите название команды: ");
-            string city = EnterString("Введите город: ");
+            string name = EnterString("Enter team name: ");
+            string city = EnterString("Enter city: ");
 
             var team = repo.GetAll().FirstOrDefault(t => t.Name == name && t.City == city);
 
             if (team == null)
             {
-                Console.WriteLine("Команда не найдена.");
+                Console.WriteLine("Team not found.");
                 ReadKey();
                 return;
             }
 
             PrintTeam(team);
-            Console.Write("Удалить? (y/n): ");
+            Console.Write("Delete? (y/n): ");
             if (Console.ReadLine()?.ToLower() == "y")
             {
                 repo.Remove(team.Id);
-                Console.WriteLine("Команда удалена!");
+                Console.WriteLine("Team deleted!");
             }
             else
-                Console.WriteLine("Удаление отменено.");
+                Console.WriteLine("Deletion canceled.");
 
             ReadKey();
         }
@@ -882,8 +883,8 @@ namespace Praktika_menu
             while (true)
             {
                 Console.Clear();
-                Console.WriteLine("Поиск по:\n1 - Названию\n2 - Городу\n3 - Названию + Городу\n0 - Выход");
-                int choice = EnterInt("Введите: ");
+                Console.WriteLine("Search by:\n1 - Name\n2 - City\n3 - Name + City\n0 - Exit");
+                int choice = EnterInt("Enter: ");
                 if (choice == 0) return;
                 SearchTeamSwitch(repo.GetAll(), choice);
                 ReadKey();
@@ -895,20 +896,20 @@ namespace Praktika_menu
                 switch (choice)
                 {
                     case 1:
-                        var name = EnterString("Название: ");
+                        var name = EnterString("Name: ");
                         teams.Where(t => t.Name == name).ToList().ForEach(PrintTeam);
                         break;
                     case 2:
-                        var city = EnterString("Город: ");
+                        var city = EnterString("City: ");
                         teams.Where(t => t.City == city).ToList().ForEach(PrintTeam);
                         break;
                     case 3:
-                        name = EnterString("Название: ");
-                        city = EnterString("Город: ");
+                        name = EnterString("Name: ");
+                        city = EnterString("City: ");
                         teams.Where(t => t.Name == name && t.City == city).ToList().ForEach(PrintTeam);
                         break;
-                    default: Console.WriteLine("Ошибка!"); break;
-                }        
+                    default: Console.WriteLine("Error!"); break;
+                }
         }
 
         public void Menu_SelectTeam(PrRepository repo)
@@ -916,8 +917,8 @@ namespace Praktika_menu
             while (true)
             {
                 Console.Clear();
-                Console.WriteLine("1 - max Побед\n2 - max Поражений\n3 - max Ничьих\n4 - max Забитых\n5 - max Пропущенных\n0 - Выход");
-                int choice = EnterInt("Введите: ");        
+                Console.WriteLine("1 - max Wins\n2 - max Losses\n3 - max Draws\n4 - max Goals Scored\n5 - max Goals Missed\n0 - Exit");
+                int choice = EnterInt("Enter: ");
                 if(choice == 0) return;
                 SelectTeamSwitch(repo.GetAll(), choice);      
                 ReadKey();
@@ -933,9 +934,9 @@ namespace Praktika_menu
                     case 3: result = teams.OrderByDescending(t => t.Draw).FirstOrDefault(); break;
                     case 4: result = teams.OrderByDescending(t => t.Goals_scored).FirstOrDefault(); break;
                     case 5: result = teams.OrderByDescending(t => t.Goals_missed).FirstOrDefault(); break;
-                    default: Console.WriteLine("Ошибка!"); return;
+                    default: Console.WriteLine("Error!"); return;
                 }
-                Console.WriteLine("Результат:");
+                Console.WriteLine("Result:");
                 PrintTeam(result);
             
         }

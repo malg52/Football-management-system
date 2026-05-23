@@ -21,8 +21,8 @@ namespace Praktika
                 while (true)
                 {
                     Console.Clear();
-                    Console.WriteLine("1 - добавить команду.\n2 - вывести всех команд.\n3 - удалить команду.\n4 - изменить данные команды.\n5 - найти команду.\n6 - выбрать по параметрам.\n7 - функции с матчами и игроками. \n8 - Добавить/Удалить/Изменить матч \n9 - Статистика бомбардиров \n10 - Статистика команд по голам \n0 - выход.");
-                    Console.Write("Введите: ");
+                    Console.WriteLine("1 - Add team.\n2 - Show all teams.\n3 - Delete team.\n4 - Update team.\n5 - Find team.\n6 - Filter by parameters.\n7 - Player and match functions.\n8 - Add/Delete/Update match.\n9 - Top scorers statistics.\n10 - Team goal statistics.\n0 - Exit.");
+                    Console.Write("Enter: ");
                     string inp = Console.ReadLine();
 
                     if (int.TryParse(inp, out choice))
@@ -30,12 +30,12 @@ namespace Praktika
                         if (choice >= 0 && choice <= 10)
                             break;
                         else
-                            Console.WriteLine("Ошибка! Введите число от 0 до 10.");
-                            menu.ReadKey();
+                        Console.WriteLine("Error! Enter a number from 0 to 10.");
+                        menu.ReadKey();
                     }
                     else
                     {
-                        Console.WriteLine("Ошибка ввода! Введите число.");
+                        Console.WriteLine("Input error! Enter a number.");
                         menu.ReadKey();
                     }
                 }
@@ -137,3 +137,5 @@ namespace Praktika
         }
     }
 }
+
+

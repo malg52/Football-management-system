@@ -1,65 +1,50 @@
-# Film Management System 
+# Football Management System (C# / EF Core)
 
-Console application written in C# for managing films, actors, roles, users, and reviews.  
-The project uses a layered architecture with a DAL (Data Access Layer) and Repository pattern.
+A console-based application for managing a football championship.  
+The project allows you to manage teams, matches, players, and statistics (goals, points, wins, etc.).
 
 ---
 
 ## Features
 
-### Films
-- Add / update / delete films
-- View all films with full details (roles + reviews)
-- Search films by:
-  - Title
-  - Country
-  - Year
-  - Actor
-- Film statistics:
-  - Average rating
-  - Top 5 films
-  - Best / worst rated film
-  - Films by country
-  - Films by year
-- Random film selection
-- Films without reviews
-- Count roles per film
+### Teams
+- Add / edit / delete teams
+- View all teams
+- Search by name and city
+- Select teams by statistics (wins, losses, goals)
+
+### Matches
+- Add matches manually
+- Edit and delete matches
+- Generate random matches
+- View matches by:
+  - date
+  - team
+- Full match details (including scorers)
+
+### Players
+- Player management inside teams
+- Goal tracking per player
+- Top scorers:
+  - by team
+  - by championship
+
+### Statistics
+- Top 3 teams by:
+  - goals scored
+  - goals conceded
+  - points
+- Best / worst team selection
+- Goal difference (scored vs conceded)
+- Points table (3 points per win, 1 per draw)
 
 ---
 
-### Actors
-- Add / update / delete actors
-- View all actors with roles
-- Link actors to roles
-- Search actors by film
-- Actor statistics:
-  - Actor with most roles
-  - Random actor
-  - Actors in a specific film
-- Manage actor roles (add / remove / unlink)
-
----
-
-### Reviews
-- Add reviews (with user login/registration)
-- Update reviews (rating, comment, film)
-- Delete reviews
-- View all reviews for a film
-
----
-
-### Users
-- Simple authentication system (login / register)
-- Each review is connected to a user
-
----
-
-## ⚙ Technologies
+## Technologies
 
 - C#
-- .NET (Console Application)
+- .NET
 - Entity Framework Core
 - LINQ
-- Repository Pattern
+- Console Application
 
----
